@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<script>
+    function sortweight(w,ind,n){
+        let i,j,temp;
+        let temp1,temp2;
+        for (i=0;i<n;i++)
+        {
+            ind[i] = i;
+        }
+            for(i=0;i<n;i++)
+            {
+                temp=i;
+                for (j=i+1;j<n;++j)
+                {
+                    if(w[j]<w[temp])
+                        temp=j;
+                }
+                if(temp!=i)
+                {
+                    temp1=w[i];
+                    w[i]=w[temp];
+                    w[temp]=temp1;
+                    temp2=ind[i];
+                    ind[i]=ind[temp];
+                    ind[temp]=temp2;
+                }
+
+        }
+        let number=0;
+        for (i=0;i<n&&weight_max>=w[i];i++)
+        {
+            weight_max-=w[i];
+            number++;
+        }
+        console.log('最多可以装'+number+'个');
+        for(i=0;i<number;i++)
+        {
+            console.log('第'+(ind[i]+1)+'个物品'+'重量为'+w[i]);
+        }
+
+    }
+    let n=parseInt(prompt("商品数量"));
+    let weight_max=parseInt(prompt('背包容纳重量'));
+    let w=(prompt('依次输入商品质量').split(' ')).map(Number);
+
+    let ind=[];
+    sortweight(w,ind,n)
+</script>
+</body>
+</html>

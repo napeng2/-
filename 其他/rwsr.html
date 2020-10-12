@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<script>
+  function Set() {
+    this.items={};
+    Set.prototype.add=function (value) {
+      if (this.has(value))
+      {
+        return false
+      }
+      else{
+        this.items[value]=value
+        return true
+      }
+    };
+    Set.prototype.has=function (value) {
+      return this.items.hasOwnProperty(value)
+    };
+    Set.prototype.remove=function (value) {
+      if (this.has(value))
+      {
+        delete this.items[value];
+        return true
+      }
+      else return false;
+    };
+    Set.prototype.clean=function () {
+      this.items={};
+    };
+    Set.prototype.size=function () {
+      return Object.keys(this.items).length
+    };
+    Set.prototype.value=function () {
+      return Object.keys(this.items)
+    };
+    Set.prototype.union=function (otherSet) {
+      var newSet=new Set();
+      console.log(this.value());
+      for(let i=0;i<this.size;i++)
+      { console.log(this.size);
+        newSet.add(this.value()[i])
+        console.log(this.value()[i]);
+      }
+      console.log(newSet.value());
+      for (let i=0;i<otherSet.size;i++)
+      {
+        newSet.add(otherSet.value()[i])
+      }
+      return newSet
+    }
+  }
+
+  var seta =new Set();
+  var setb=new Set()
+  seta.add('a');
+  seta.add('b');
+  seta.add('c');
+  setb.add('c');
+  setb.add('e');
+  setb.add('f');
+  console.dir(seta.size);
+  obj=seta.union(setb);
+  console.log(obj.value());
+
+</script>
+</body>
+</html>

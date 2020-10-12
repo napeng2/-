@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<script>
+    function sort(n,arr,num){
+        let i=0,j=0;
+        let temp;
+        for (i=0;i<n;i++)
+        {
+            for (j=i+1;j<n;j++)
+            {
+                if (arr[i]>arr[j])
+                {
+                    temp=arr[i];
+                    arr[i]=arr[j];
+                    arr[j]=temp;
+                    temp=num[i];
+                    num[i]=num[j];
+                    num[j]=temp;
+                }
+            }
+        }
+
+    }
+    function Drive(n,arr,num,c){
+        let i=0,j=0;
+        let number=0;
+        let temp=n;
+        for (i=0;i<n;i++)
+        {
+            for (j=temp-1;j>i&&j>=0;--j)
+            {
+                if(arr[i]+arr[j]<=c)
+                {
+                    number++;
+                    if(number===1)
+                    {
+                        number+=n-j-1
+                    }
+
+                    temp=j;
+                    break;
+                }
+
+
+            }
+            if(j===i)
+            {
+                number++;
+                break;
+            }
+        }
+        console.log(number);
+    }
+    let n =10;
+    let c=8;
+    let arr=[1,2,6,8,7,5,10,11,1,3];
+    let num=[1,2,3,4,5,6,7,8,9,10];
+    sort(n,arr,num);
+    console.log(arr);
+    Drive(n,arr,num,c);
+</script>
+</body>
+</html>

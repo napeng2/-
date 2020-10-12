@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<script>
+    function printf(x,n) {
+        for(let i=0;i<n;i++)
+        {
+            if (x[i]===1)
+            {
+                console.log('需要第'+(i+1)+'个物品全部质量');
+            }
+            if(x[i]>1)
+            {
+                console.log('需要第'+(i+1)+'个物品质量'+(x[i]-2));
+            }
+        }
+    }
+    function GetResult(x,n,reslut,w,w_max) {
+        let i=0;
+        let j=0;
+        let k=0;
+        for(i=0;i<n;i++)
+        {
+            x[i]=0;
+        }
+        for(i=0;i<n;i++)
+        {
+            for(j=0;j<n;j++)
+            {
+                if(reslut[j]===(i+1))
+                {
+                    temp=j;
+                    break;
+                }
+            }
+            if(w[temp]>w_max)
+            {
+                break;
+            }
+            x[temp]=1;
+            w_max-=w[temp];
+        }
+        if (i<n&&w_max>0)
+        {
+            x[temp]=w_max+2;
+        }
+    }
+    function sort(x,n,reslut){
+        let i=0,j=0,k=0;
+        for (i=0;i<n;i++)
+        {
+            reslut[i]=0
+        }
+        for(i=0;i<n;i++)
+        {
+            let temp=0;
+            let index=0;
+            for(j=0;j<n;j++)
+            {
+                if(temp<x[j]&&reslut[j]===0)
+                {
+                    temp=x[j];
+                    index=j;
+                }
+
+            }
+            reslut[index]=++k;
+        }
+    }
+    let w_max=4;
+    let x=[];
+    // let p=prompt('输入每个物品的价格').split(' ').map(Number);
+    // let w=prompt('输入每个物品的重量').split(' ').map(Number);
+    // let n=parseInt(prompt('输入物品数量'));
+    let p=[2,3,5,6];
+    let w=[2,1,1,1];
+    let n=4;
+    let reslut=[];     //保存：对于性价比由大到小的映射 解释：保存1代表性价比最高，以此类推
+    for(i=0;i<n;i++)
+    {
+        x[i]=p[i]/w[i];  //计算每个物品性价比
+    }
+    sort(x,n,reslut);   //进行映射排序
+    GetResult(x,n,reslut,w,w_max);  //对于背包计算
+    printf(x,n)
+</script>
+</body>
+</html>
