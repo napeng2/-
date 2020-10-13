@@ -125,35 +125,104 @@ function BinarySerachTree(key) {
   }
 
   // 删除节点
-  BinarySerachTree.prototype.Remove=function(key){
+  BinarySerachTree.prototype.Remove = function (key) {
     // 记录父节点,方便后续操作
-    let parent=null
+    let parent = null
     //记录此时遍历节点位置
-    let curent=this.root
+    let curent = this.root
     // 判断左右子节点
-    let IsLeft=true
-    if (curent===null) {
+    let IsLeft = true
+    if (curent === null) {
       return false
     }
     // 循环遍历树节点，当满足条件时，找到删除接节点位置，以及他的父节点和是父节点左右子节点
-    while(curent.key!=key){
-      if (key<curent.key) {
-        parent=curent
-        IsLeft=true
-        curent=curent.left
-      }else{
-        parent=curent
-        IsLeft=false
-        curent=curent.right
+    while (curent.key != key) {
+      if (key < curent.key) {
+        parent = curent
+        IsLeft = true
+        curent = curent.left
+      } else {
+        parent = curent
+        IsLeft = false
+        curent = curent.right
       }
       //当全部遍历完，没有找到节点返回false
-      if (curent===null) { 
+      if (curent === null) {
         return false
       }
     }
 
-    // 2、根据不同条件删除响应的元素
-    // 2.1、如果遍历的是叶节点
+    //2 根据不同条件删除响应的元素
+    //2.1 如果删除的是叶节点
+    if (curent.left===null&&curent.right===null) {
+      if (curent===this.root) {
+        this.root=null
+      }else if(IsLeft){
+        parent.left=null
+      }else{
+        parent.right=null
+      }
+    }
+    //2.2 如果删除的节点只有一个子节点的话
+    else if(curent.right===null){
+      if (curent===this.root) {
+        this.root=curent.left
+      }
+      else if (IsLeft) {
+        parent.left=curent.left
+      }
+      else{
+        parent.right=curent.left
+      }
+    }
+    else if(curent.left===null){
+      if (curent===this.root) {
+        this.root=curent.right
+      }
+      else if (IsLeft) {
+        parent.left=curent.right
+      }
+      else{
+        parent.right=curent.right
+      }
+    }
+    //2.3 如果删除的节点有两个子节点 
+    else{
+      // 获取后继结点
+      let successor=this.getSuccessor(curent)
+      // 判断是否是根节点
+      if (curent===this.root) {
+        this.root=successor
+      }else if(IsLeft){
+        parent.left=successor
+      }else{
+        parent.right=successor
+      }
+      //将删除节点的左子树
+      successor.left=curent.left
+    }
+  }
+  // 找后继结点的方法
+  BinarySerachTree.prototype.getSuccessor=function(delNode){
+    //定义变量，保存找到的后继
+    let successor=delNode
+    let curent=delNode.right
+    let successorParent=delNode
+
+    // 循环查找
+    while(curent!=null){
+      successorParent=successor
+      successor=curent
+      curent=curent.left
+
+    }
+
+    //判断寻找的后继结点是否直接就是delNode的right节点
+    if (successor!=delNode.right) {
+      successorParent.left=successor.right
+      successor.right=delNode.right
+    }
+    return successor
   }
 }
 
@@ -193,4 +262,13 @@ console.log('最大值:' + max);
 
 // 判断树中是否含有特定的元素
 let IsElement = bst.Search(3)
-console.log(IsElement);
+console.log('是否含有：'+IsElement);
+
+// 删除节点
+bst.Remove(11)
+str=''
+bst.PreOrder((key) => {
+  str += key + ','
+})
+console.log(str);
+
